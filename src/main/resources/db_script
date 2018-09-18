@@ -1,0 +1,42 @@
+CREATE SCHEMA if NOT EXISTS my_classes_en CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+USE hr;
+
+CREATE TABLE IF NOT EXISTS employee
+(
+  id BIGINT AUTO_INCREMENT,
+  name VARCHAR(100),
+  position VARCHAR(100),
+  organization_id BIGINT,
+  PRIMARY KEY (id),
+  FOREIGN KEY (organization_id) REFERENCES organization(id)
+);
+
+CREATE TABLE IF NOT EXISTS organization
+(
+  id BIGINT AUTO_INCREMENT,
+  name VARCHAR(100),
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS phone(
+  id BIGINT AUTO_INCREMENT,
+  phone_number BIGINT,
+  employee_id BIGINT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (employee_id) REFERENCES employee(id)
+);
+
+CREATE TABLE IF NOT EXISTS meeting (
+  id BIGINT AUTO_INCREMENT,
+  meeting_time DATETIME,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS employee_meetings(
+  employee_id BIGINT NOT NULL,
+  meeting_id BIGINT NOT NULL,
+  PRIMARY KEY (employee_id, meeting_id),
+  FOREIGN KEY (employee_id) REFERENCES employee(id),
+  FOREIGN KEY (meeting_id) REFERENCES meeting(id)
+);
